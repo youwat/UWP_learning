@@ -62,6 +62,9 @@ namespace App1
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: 以前中断したアプリケーションから状態を読み込みます
+                    // ページを復元してデータを読み込む
+                    rootFrame.Navigate(typeof(MainPage));
+                    ((MainPage)rootFrame.Content).LoadState();
                 }
 
                 // フレームを現在のウィンドウに配置します
@@ -81,6 +84,7 @@ namespace App1
                 Window.Current.Activate();
             }
         }
+
 
         /// <summary>
         /// 特定のページへの移動が失敗したときに呼び出されます
@@ -103,6 +107,9 @@ namespace App1
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: アプリケーションの状態を保存してバックグラウンドの動作があれば停止します
+            // ページのデータを保存する
+            var mainPage = (MainPage)((Frame)Window.Current.Content).Content;
+            mainPage.SaveState();
             deferral.Complete();
         }
     }
